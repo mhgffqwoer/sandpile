@@ -4,9 +4,9 @@ namespace Arguments {
 
 Arguments::Arguments()
   : input_file(""), 
-	output_path(""), 
-	max_iterations(0), 
-	frequency(0) {}
+  output_path(""), 
+  max_iterations(0), 
+  frequency(0) {}
 
 std::string Arguments::GetInputFile() const { return input_file; }
 
@@ -17,10 +17,11 @@ size_t Arguments::GetMaxIterations() const { return max_iterations; }
 size_t Arguments::GetFrequency() const { return frequency; }
 
 Arguments& Arguments::Parse(const int argc, const char** argv) {
-  std::string array[argc];
+  std::vector<std::string> array;
+  array.reserve(argc);
 
   for (int i = 0; i < argc; ++i) {
-    array[i] = argv[i];
+    array.push_back(argv[i]);
   }
 
   Parse(argc, array);
@@ -28,7 +29,7 @@ Arguments& Arguments::Parse(const int argc, const char** argv) {
   return *this;
 }
 
-void Arguments::Parse(const int argc, const std::string argv[]) {
+void Arguments::Parse(const int argc, const std::vector<std::string>& argv) {
   for (int idx = 1; idx < argc; ++idx) {
     if (isArg(argv[idx], "-i") || isArg(argv[idx], "--input"))
       input_file = argv[idx].substr(argv[idx].find("=") + 1);
@@ -37,14 +38,15 @@ void Arguments::Parse(const int argc, const std::string argv[]) {
       output_path = argv[idx].substr(argv[idx].find("=") + 1);
 
     if (isArg(argv[idx], "-m") || isArg(argv[idx], "--max-iter"))
-      max_iterations = std::stoi(argv[idx].substr(argv[idx].find("=") + 1));
+      max_iterations = std::stoull(argv[idx].substr(argv[idx].find("=") + 1));
 
     if (isArg(argv[idx], "-f") || isArg(argv[idx], "--freq"))
-      frequency = std::stoi(argv[idx].substr(argv[idx].find("=") + 1));
+      frequency = std::stoull(argv[idx].substr(argv[idx].find("=") + 1));
   }
 }
 
 bool Arguments::isArg(const std::string& arg, const std::string& command) {
+  if (arg.size() < command.size()) return false;
   return arg.substr(0, command.size()) == command;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <cstddef>
 
 namespace Arguments {
@@ -15,7 +16,7 @@ public:
     size_t GetFrequency() const;
 
     Arguments& Parse(const int argc, const char** argv);
-    void Parse(const int argc, const std::string argv[]);
+    void Parse(const int argc, const std::vector<std::string>& argv);
 
 private:
     std::string input_file;
