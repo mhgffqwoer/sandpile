@@ -10,20 +10,16 @@ void Image::SetFileSize(Table& table) {
 
 void Image::SetHeader(Table& table) {
     bmp_file_header[0] = 0x42;
-    bmp_file_header[1] = 0x4D;  //  BM signature
+    bmp_file_header[1] = 0x4D;
 
     bmp_file_header[2] = static_cast<uint8_t>(file_size & 0xFF);
     bmp_file_header[3] = static_cast<uint8_t>((file_size >> 8) & 0xFF);
     bmp_file_header[4] = static_cast<uint8_t>((file_size >> 16) & 0xFF);
     bmp_file_header[5] = static_cast<uint8_t>((file_size >> 24) & 0xFF);
 
-    // Зарезервированные байты 6-9 уже занулены при инициализации массива {0}
-
     bmp_file_header[10] = kFileHeaderSize + kInfoHeaderSize + kPaletteSize;
-    // Байты 11-13 тоже занулены
 
     bmp_inf_header[0] = kInfoHeaderSize;
-    // Байты 1-3 занулены
 
     uint32_t width = table.Width();
     bmp_inf_header[4] = static_cast<uint8_t>(width & 0xFF);
@@ -37,7 +33,7 @@ void Image::SetHeader(Table& table) {
     bmp_inf_header[10] = static_cast<uint8_t>((height >> 16) & 0xFF);
     bmp_inf_header[11] = static_cast<uint8_t>((height >> 24) & 0xFF);
 
-    bmp_inf_header[12] = 1; // Planes
+    bmp_inf_header[12] = 1;
     bmp_inf_header[14] = kBitsPerPixel;
     bmp_inf_header[32] = kColorAmount;
 }

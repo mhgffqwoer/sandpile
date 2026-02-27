@@ -2,7 +2,17 @@
 #include "lib/Table/Table.hpp"
 #include "lib/Image/Image.hpp"
 
-
+/**
+ * @brief Main entry point for the Sandpile model simulation.
+ * * This function initializes the simulation by:
+ * 1. Parsing command-line arguments.
+ * 2. Loading the initial state into a Sandpile Table.
+ * 3. Running the simulation loop until stability or the iteration limit is reached.
+ * 4. Periodically saving snapshots as BMP images based on the specified frequency.
+ * * @param argc Argument count.
+ * @param argv Argument vector.
+ * @return Integer status code (0 for success).
+ */
 int main(const int argc, const char** argv) {
   Arguments::Arguments args = Arguments::Arguments().Parse(argc, argv);
 
